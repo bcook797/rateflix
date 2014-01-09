@@ -20,6 +20,24 @@ describe MoviesController do
       get :new
       expect(response).to render_template 'new'
     end
+    it 'creates new movie' do
+      movie= stub_everything()
+      Movie.expects(:new).returns(movie)
+      get :new
+      expect(assigns(:movie)).to be movie
+    end
+  end
+
+  describe '#create' do
+    it 'create new movie with name' do
+      Movie.expects(:create).with(has_entries('name' => 'Gravity'))
+      post :create, movie: {name: 'Gravity'}
+    end
+    it 'redirects to index after create' do
+      Movie.stubs(:create)
+      post :create, movie: {name: 'Gravity'}
+      expect(response).to redirect_to movies_path
+    end
   end
   
 end
