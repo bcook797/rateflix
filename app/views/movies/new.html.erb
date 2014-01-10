@@ -1,4 +1,13 @@
 <%= form_for @movie, url: {action: "create"} do |f| %>
+  <% if @movie.errors.any? %>
+    <div>
+      <ul>
+        <% @movie.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+   <% end %>
   <%= f.text_field :name %>
   <%= f.submit "Create" %>
 <% end %>
